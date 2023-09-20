@@ -1,6 +1,6 @@
 package com.api.usuario.units;
 
-import com.api.usuario.config.jwt.JwtGeneratorImpl;
+import com.api.usuario.config.jwt.JwtGenerator;
 import com.api.usuario.model.dto.UsersDto;
 import com.api.usuario.model.entity.Token;
 import com.api.usuario.model.entity.Users;
@@ -16,10 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,21 +40,12 @@ public class UserControllerTest {
     private UsersService userService;
 
     @MockBean
-    private JwtGeneratorImpl jwtGenerator;
-
-    @MockBean
     private UsersMapper userMapper;
 
     @DisplayName("Guardar un usuario.")
     @Test
     void guardar() throws Exception {
 
-
-        Users user = Users.builder()
-                .name("Marcus Phoenix")
-                .email("mark_pho@gmail.com")
-                .password("Gowrules123")
-                .build();
         Token token = new Token("1234");
         UsersDto userDto = UsersDto.builder()
                 .name("Marcus Phoenix")
@@ -60,13 +54,7 @@ public class UserControllerTest {
                 .token(token.getToken())
                 .build();
 
-        given(userMapper.userDtoToUser(any(UsersDto.class))).willReturn(user);
-
-        given(userService.saveUser(any(Users.class))).willReturn(user);
-
-        given(jwtGenerator.generateToken(any(Users.class))).willReturn(token);
-
-        given(userMapper.userToUserDto(any(Users.class))).willReturn(userDto);
+        given(userMapper.userToUserDto(userService.saveUser(any(UsersDto.class)))).willReturn(userDto);
 
         ResultActions resultActions = mockMvc.perform(post("/v1/user")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -82,10 +70,6 @@ public class UserControllerTest {
     @Test
     void login() throws Exception {
 
-        Users user = Users.builder()
-                .email("mark_pho@gmail.com")
-                .password("Gowrules123")
-                .build();
         Token token = new Token("1234");
         UsersDto userDto = UsersDto.builder()
                 .name("Marcus Phoenix")
@@ -94,21 +78,31 @@ public class UserControllerTest {
                 .token(token.getToken())
                 .build();
 
-        given(userMapper.userDtoToUser(any(UsersDto.class))).willReturn(user);
+        given(userMapper.userToUserDto(userService.obtenerLogin(any(UsersDto.class)))).willReturn(userDto);
 
-        given(jwtGenerator.generateToken(any(Users.class))).willReturn(token);
-
-        given(userService.obtenerLogin(userDto)).willReturn(user);
-
-        given(userMapper.userToUserDto(any(Users.class))).willReturn(userDto);
-
-        ResultActions resultActions = mockMvc.perform(post("/v1/login")
+        ResultActions resultActions = mockMvc.perform(put("/v1/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userDto)));
 
         resultActions.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token", is(userDto.getToken())));
+
+    }
+
+    @DisplayName("Listar usuarios.")
+    @Test
+    void cargarUsuarios() throws Exception {
+
+        List<Users> usersList = new ArrayList<>();
+
+        given(userService.obtenerUsers()).willReturn(usersList);
+
+        ResultActions resultActions = mockMvc.perform(get("/v1/all")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions.andDo(print())
+                .andExpect(status().isOk());
 
     }
 }

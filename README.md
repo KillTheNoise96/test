@@ -35,13 +35,15 @@ Se verá una opcion llamada "Project Structure", en la que se accederá para sel
   
   Habiendo realizado los pasos anteriores, se procede a hacer debug o "correr" la api, lo que permitirá hacer uso de los endpoints que ésta contiene en la clase UserController, para lo cual se recomienda usar Postman.
   
-  La url base que posee la api es: localhost:8080/api/v1/
+  La url base que posee la api es: http://localhost:8080/api/v1/
+
+  La lista de endpoints dentro de la api pueden observarse en esta url: http://localhost:8080/api/swagger-ui/index.html#
   
   Estando desplegada la api, se procederá a abrir Postman, en el cual se abrirán 3 pestañas, cada una tendrá asignada 3 tipos de peticiones diferentes:
   
-  - La primera tendrá como tipo de petición GET, en la cual asignaremos la url localhost:8080/api/v1/all (Listar todos los usuarios).
+  - La primera tendrá como tipo de petición GET, en la cual asignaremos la url http://localhost:8080/api/v1/all (Listar todos los usuarios).
   
-  - La segunda será una petición PUT en la que se usará la url localhost:8080/api/v1/login (equivalente a un inicio de sesión) con el siguiente cuerpo JSON:
+  - La segunda será una petición PUT en la que se usará la url http://localhost:8080/api/v1/login (equivalente a un inicio de sesión) con el siguiente cuerpo JSON:
   "
       {
           "email": "mark_pho@gmail.com",
@@ -50,7 +52,7 @@ Se verá una opcion llamada "Project Structure", en la que se accederá para sel
   
   "
   
-  - La tercera y última corresponderá al tipo POST con la url localhost:8080/api/v1/user (Guardado de un nuevo usuario) con la siguiente estructura JSON:
+  - La tercera y última corresponderá al tipo POST con la url http://localhost:8080/api/v1/user (Guardado de un nuevo usuario) con la siguiente estructura JSON:
 
   "
       {

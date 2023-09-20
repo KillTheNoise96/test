@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
-public class JwtGeneratorImpl {
+public class JwtGeneratorImpl implements JwtGenerator {
     @Value("${jwt.secret}")
     private String secret;
     @Value("${token.time}")
