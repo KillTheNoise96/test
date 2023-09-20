@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "e10562db-e36e-4978-a083-059281f65fd7",
+		"name": "USER API",
+		"description": "CREATING AND LISTING USERS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29786852"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"mark_pho@gmail.com\",\n  \"password\": \"Gowrules123\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "save User Info",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json;charset=UTF-8"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"name\": \"Juan Rodriguez\",\n        \"email\": \"juane@rodriguez.org\",\n        \"password\": \"Hunter24q\",\n        \"phones\": [\n            {\n                \"number\": \"1234567\",\n                \"cityCode\": \"1\",\n                \"countryCode\": \"57\"\n            }\n        ]\n} ",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/v1/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "all",
+					"item": [
+						{
+							"name": "get All Users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/all",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api"
+		}
+	]
+}
